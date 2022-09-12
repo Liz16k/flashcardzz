@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .nav-link {
+    @apply mx-2 px-4 py-1 hover:backdrop-brightness-90 hover:rounded-xl hover:text-sky-100 cursor-pointer
+  }
+}
+
+*, ::after, ::before {
+  box-sizing: border-box;
+}
