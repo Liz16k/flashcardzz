@@ -1,11 +1,16 @@
 import { useSelector } from "react-redux"
 import { Card } from "./Card"
 
-export const Cards = (deckName: string) => {
-  const state = useSelector((state: any) => state.lib)
+export const Cards = ({ deckName, index }: any) => {
+  const store = useSelector((state: any) => state.lib)
+
   return (
     <div className="flex flex-col gap-6 items-center">
-      {state.decks[deckName].cards.map(()=>{(<Card />)})}
+      {deckName
+        ? store.decks[index]?.cards.map((card: any) => {
+            return <Card {...card} key={card.answer} />
+          })
+        : null}
     </div>
   )
 }

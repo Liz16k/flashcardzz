@@ -7,16 +7,12 @@ export const Modal = ({ type, isVisible }: any) => {
   const { register, handleSubmit, reset } = useForm()
 
   const onSubmit = (data: any) => {
-    console.log(type);
-    
     dispatch(
       type === "card"
         ? ADD_CARD(data.deckName, data.question, data.answer)
         : ADD_DECK(data.deckName)
     )
     hideModal()
-    console.log(state);
-    
   }
   const state = useSelector(
     (state: {
@@ -33,7 +29,6 @@ export const Modal = ({ type, isVisible }: any) => {
 
   useEffect(() => {
     //---reset-deckName-input-value-after-cancel/submit-action
-    console.log(state)
     reset()
   }, [state])
 
@@ -65,6 +60,7 @@ export const Modal = ({ type, isVisible }: any) => {
               <div className="p-4 text-lg flex flex-col">
                 <select
                   {...register("deckName")}
+                  defaultValue={""}
                   className="border-2 border-blue-400 rounded-2xl p-2 mb-2"
                 >
                   {state.decks.map((deck: { deckName: string }) => (

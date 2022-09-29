@@ -6,7 +6,7 @@ const modalInitialState = {
 }
 type DeckType = {
   deckName: string
-  cards: Array<{ question: string; answer: string }>
+  cards: Array<{ question: string; answer: string; deck: string }>
 }
 
 type libType = {
@@ -18,12 +18,21 @@ const libInitialState: libType = {
     {
       deckName: "react theory",
       cards: [
-        { question: "State library for React..", answer: "Redux" },
+        {
+          question: "State library for React..",
+          answer: "Redux",
+          deck: "react theory",
+        },
         {
           question: "Main options of Redux:",
+          deck: "react theory",
           answer: "store, reducer, actions",
         },
-        { question: "Redux Hooks", answer: "useSelector(), useDispatch()" },
+        {
+          question: "Redux Hooks",
+          answer: "useSelector(), useDispatch()",
+          deck: "react theory",
+        },
       ],
     },
   ],
@@ -47,9 +56,9 @@ export const ADD_CARD = (
   answer: string
 ) => ({
   type: "ADD_CARD",
-  deckName,
-  answer,
-  question,
+  deckName: deckName,
+  answer: answer,
+  question: question,
 })
 export const ADD_DECK = (deckName: string) => ({
   type: "ADD_DECK",
@@ -80,11 +89,24 @@ const libReducer = (state = libInitialState, action: any) => {
     case "ADD_CARD":
       const index = state.decks.findIndex(
         (deck) => deck.deckName === action.deckName
-      )
-      return [...state.decks][index].cards.push({
-        question: action.question,
-        answer: action.answer,
-      })
+      )     
+      return {
+        decks: [
+          ...state.decks.slice(0, index),
+          {
+            ...state.decks[index],
+            cards: [
+              ...state.decks[index].cards,
+              {
+                question: action.question,
+                answer: action.answer,
+                deck: action.deckName,
+              },
+            ],
+          },
+          ...state.decks.slice(index + 1),
+        ],
+      }
     case "ADD_DECK":
       return {
         decks: [...state.decks, { deckName: action.deckName, cards: [] }],
