@@ -7,7 +7,8 @@ import { Modal } from "./components/Modal"
 import { NotFound } from "./components/NotFound"
 
 function App() {
-  const store = useSelector((store: any) => store.modal)
+  const state = useSelector((state: any) => state.modal)
+
   return (
     <>
       <Header />
@@ -15,11 +16,14 @@ function App() {
         <Routes>
           <Route path="/" element={<Decks />} />
           <Route path="decks" element={<Decks />} />
-          <Route path="decks/:deckName" element={<DeckPage />} />
+          <Route
+            path="decks/:deckName"
+            element={<DeckPage />}
+          />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
-      <Modal type={store.type} isVisible={store.isVisible} />
+      <Modal type={state.type} isVisible={state.isVisible} />
     </>
   )
 }

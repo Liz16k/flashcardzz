@@ -1,3 +1,4 @@
+import { nanoid } from "nanoid"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { useDispatch, useSelector } from "react-redux"
@@ -9,22 +10,12 @@ export const Modal = ({ type, isVisible }: any) => {
   const onSubmit = (data: any) => {
     dispatch(
       type === "card"
-        ? ADD_CARD(data.deckName, data.question, data.answer)
+        ? ADD_CARD(data.deckName, data.question, data.answer, nanoid(6))
         : ADD_DECK(data.deckName)
     )
     hideModal()
   }
-  const state = useSelector(
-    (state: {
-      lib: {
-        decks: Array<{
-          deckName: string
-          cards: Array<{ question: string; answer: string }>
-        }>
-      }
-      modal: {}
-    }) => state.lib
-  )
+  const state = useSelector((state: any) => state.lib)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -47,10 +38,10 @@ export const Modal = ({ type, isVisible }: any) => {
             <div className="px-4 py-8">
               <input
                 {...register("deckName", { required: true, minLength: 3 })}
-                className="block text-4xl w-2/3 my-8 px-4 py-2 border-2 rounded-2xl focus:outline-blue-500 mx-auto"
+                className="block text-4xl w-2/3 my-8 px-6 py-2 pb-3 border-2 rounded-2xl focus:outline-blue-500 mx-auto"
                 placeholder="enter deck's name"
               />
-              <div className="absolute bottom-0 w-11/12 py-4 flex justify-between text-white">
+              <div className="absolute bottom-0 left-0 w-full py-4 flex justify-center gap-80 text-white">
                 <Button onClick={() => hideModal()}>cancel</Button>
                 <Button type="submit">create</Button>
               </div>
@@ -63,9 +54,9 @@ export const Modal = ({ type, isVisible }: any) => {
                   defaultValue={""}
                   className="border-2 border-blue-400 rounded-2xl p-2 mb-2"
                 >
-                  {state.decks.map((deck: { deckName: string }) => (
-                    <option value={deck.deckName} key={deck.deckName}>
-                      {deck.deckName}
+                  {Object.keys(state.decks).map((deck) => (
+                    <option value={deck} key={nanoid(6)}>
+                      {deck}
                     </option>
                   ))}
                 </select>
@@ -90,7 +81,7 @@ export const Modal = ({ type, isVisible }: any) => {
                     break-words"
                   ></textarea>
                 </div>
-                <div className="absolute bottom-0 w-11/12 py-4 flex justify-between text-white">
+                <div className="absolute bottom-0 left-0 w-full py-4 flex justify-center gap-80  text-white">
                   <Button onClick={() => hideModal()}>cancel</Button>
                   <Button type="submit">create</Button>
                 </div>
@@ -112,14 +103,5 @@ const Button = ({ children, type = "button", onClick }: any) => {
     >
       {children}
     </button>
-  )
-}
-
-const Textarea = ({ placeholder }: any) => {
-  return (
-    <textarea
-      className="resize-none w-full my-2 px-4 py-2 border-2 rounded-2xl focus:outline-blue-500 break-words"
-      placeholder={placeholder}
-    />
   )
 }
