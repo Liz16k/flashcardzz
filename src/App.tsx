@@ -5,10 +5,10 @@ import { Decks } from "./components/decks/Decks"
 import { Header } from "./components/Header"
 import { Modal } from "./components/Modal"
 import { NotFound } from "./components/NotFound"
+import { Quiz } from "./Quiz"
 
 function App() {
-  const state = useSelector((state: any) => state.modal)
-
+  const state = useSelector((state: any) => state)
   return (
     <>
       <Header />
@@ -16,14 +16,12 @@ function App() {
         <Routes>
           <Route path="/" element={<Decks />} />
           <Route path="decks" element={<Decks />} />
-          <Route
-            path="decks/:deckName"
-            element={<DeckPage />}
-          />
+          <Route path="decks/:deckName" element={<DeckPage />} />
+          <Route path="quiz" element={<Quiz />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
-      <Modal type={state.type} isVisible={state.isVisible} />
+      <Modal type={state.modal.type} isVisible={state.modal.isVisible} />
     </>
   )
 }
