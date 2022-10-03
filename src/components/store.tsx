@@ -1,13 +1,15 @@
 import { combineReducers, createStore } from "redux"
 import { loadState, setState } from "./lstorage"
 
-const filterObj = (object: any, excluded: any) =>
-  Object.keys(object)
-    .filter((key) => key !== excluded)
-    .reduce(({ obj, key }: any) => {
-      obj[key] = object[key]
-      return obj
-    }, {})
+const filterObj = (object: any, excluded: any) => {
+  const cardsId: string[] = Object.keys(object).filter(
+    (key) => key !== excluded
+  )
+  const obj: any = {}
+  cardsId.forEach((key) => (obj[key] = { ...object[key] }))
+
+  return obj
+}
 
 const modalInitialState = {
   type: "deck",
@@ -19,25 +21,7 @@ type libType = {
 }
 
 const libInitialState: libType = loadState() ?? {
-  decks: {
-    ["react theory"]: {
-      ["a1StGX"]: {
-        question: "State library for React..",
-        answer: "Redux",
-        deck: "react theory",
-      },
-      ["b1StGX"]: {
-        question: "Main options of Redux:",
-        deck: "react theory",
-        answer: "store, reducer, actions",
-      },
-      ["c1StGX"]: {
-        question: "Redux Hooks",
-        answer: "useSelector(), useDispatch()",
-        deck: "react theory",
-      },
-    },
-  },
+  decks: {},
 }
 
 //actions
@@ -68,7 +52,7 @@ export const ADD_DECK = (deckName: string) => ({
   type: "ADD_DECK",
   deckName,
 })
-export const REMOVE_CARD = ({ cardId, deckName }: any) => ({
+export const REMOVE_CARD = (cardId: string, deckName: string) => ({
   type: "REMOVE_CARD",
   cardId,
   deckName,
@@ -115,6 +99,9 @@ const libReducer = (
         decks: { ...state.decks, [action.deckName]: {} },
       }
     case "REMOVE_CARD":
+      console.log(action.deckName)
+      console.log(filterObj(state.decks[action.deckName], action.cardId))
+
       return {
         decks: {
           ...state.decks,

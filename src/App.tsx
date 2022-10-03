@@ -5,7 +5,7 @@ import { Decks } from "./components/decks/Decks"
 import { Header } from "./components/Header"
 import { Modal } from "./components/Modal"
 import { NotFound } from "./components/NotFound"
-import { Quiz } from "./Quiz"
+import { LearnPage } from "./components/LearnPage"
 
 function App() {
   const state = useSelector((state: any) => state)
@@ -17,7 +17,7 @@ function App() {
           <Route path="/" element={<Decks />} />
           <Route path="decks" element={<Decks />} />
           <Route path="decks/:deckName" element={<DeckPage />} />
-          <Route path="quiz" element={<Quiz />} />
+          <Route path="decks/:deckName/learn" element={<LearnPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>

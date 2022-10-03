@@ -12,8 +12,6 @@ export const DeckPage = () => {
   }
   const params: any = useParams()
   const deckName: string = params.deckName.split("-").join(" ")
-  console.log(state.decks.hasOwnProperty(deckName));
-  
 
   return (
     <div>
