@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux"
-import { SHOW_DECK_MODAL } from "../store"
+import { SHOW_DECK_MODAL } from "../store/actions"
 
 export const AddDeck = () => {
   const dispatch = useDispatch()

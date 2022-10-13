@@ -8,7 +8,6 @@ export const Cards = ({ deckName }: any) => {
   return (
     <div className="flex flex-col gap-6 items-center">
       {Object.entries(state.decks[deckName]).map((pair: any) => {
-        
         return <Card {...pair[1]} cardId={pair[0]} key={nanoid(6)} />
       })}
     </div>

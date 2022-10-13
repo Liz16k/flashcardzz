@@ -6,9 +6,13 @@ import { Header } from "./components/Header"
 import { Modal } from "./components/Modal"
 import { NotFound } from "./components/NotFound"
 import { LearnPage } from "./components/LearnPage"
+import { UploadPage } from "./components/UploadPage"
+import { useContext } from "react"
+import { ThemeProvider } from "./ThemeProvider"
 
 function App() {
   const state = useSelector((state: any) => state)
+  // const { theme, toggleTheme } = useContext(ThemeContext);
   return (
     <>
       <Header />
@@ -18,6 +22,8 @@ function App() {
           <Route path="decks" element={<Decks />} />
           <Route path="decks/:deckName" element={<DeckPage />} />
           <Route path="decks/:deckName/learn" element={<LearnPage />} />
+          <Route path="upload" element={<UploadPage />} />
+
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>

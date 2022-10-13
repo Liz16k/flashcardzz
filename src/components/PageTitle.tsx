@@ -2,13 +2,12 @@ import { useSelector } from "react-redux"
 
 export const PageTitle = ({ title }: any) => {
   const state = useSelector((state: any) => state.lib)
-  console.log(title, state.decks)
 
   return (
     <h2 className="p-2 font-bold text-2xl">
       <div className="flex justify-between">
         <div>{title}</div>
-        {title === "my decks" ? null : (
+        {typeof title === "string" ? null : (
           <div className="px-2 py-1 text-xl text-blue-400 bg-blue-200 rounded-md ">
             {Object.keys(state.decks[title]).length}
           </div>

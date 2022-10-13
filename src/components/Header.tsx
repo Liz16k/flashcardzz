@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import { Toggler } from "./ThemeToggler"
 
 export const Header = () => {
   return (
@@ -22,7 +23,13 @@ export const Header = () => {
             <Link to="/decks">decks</Link>
           </li>
           <li className="nav-link">
-            <Link to="/">signUp</Link>
+            <Link to="/upload">upload</Link>
+          </li>
+          <li className="nav-link">
+            <Link to="/">profile</Link>
+          </li>
+          <li className="h-8">
+            <Toggler />
           </li>
         </ul>
       </nav>

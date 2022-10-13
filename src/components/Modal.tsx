@@ -2,27 +2,32 @@ import { nanoid } from "nanoid"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { useDispatch, useSelector } from "react-redux"
-import { ADD_CARD, ADD_DECK, HIDE_MODAL } from "./store"
+import { ADD_CARD, ADD_DECK, HIDE_MODAL } from "./store/actions"
 
 export const Modal = ({ type, isVisible }: any) => {
   const { register, handleSubmit, reset } = useForm()
-
+  const state = useSelector((state: any) => state.lib)
+  const { cardId, deckName } = useSelector((state: any) => state.modal)
+  const card = state.decks?.[deckName]?.[cardId] || { question: "", answer: "" }
   const onSubmit = (data: any) => {
     dispatch(
       type === "card"
-        ? ADD_CARD(data.deckName, data.question, data.answer, nanoid(6))
+        ? ADD_CARD(
+            data.deckName,
+            data.question,
+            data.answer,
+            cardId ?? nanoid(6)
+          )
         : ADD_DECK(data.deckName)
     )
     hideModal()
   }
-  const state = useSelector((state: any) => state.lib)
-  const dispatch = useDispatch()
 
+  const dispatch = useDispatch()
   useEffect(() => {
     //---reset-deckName-input-value-after-cancel/submit-action
     reset()
   }, [state])
-
   const hideModal = () => {
     dispatch(HIDE_MODAL())
   }
@@ -51,7 +56,7 @@ export const Modal = ({ type, isVisible }: any) => {
               <div className="p-4 text-lg flex flex-col">
                 <select
                   {...register("deckName")}
-                  defaultValue={""}
+                  defaultValue={deckName}
                   className="border-2 border-blue-400 rounded-2xl p-2 mb-2"
                 >
                   {Object.keys(state.decks).map((deck) => (
@@ -67,6 +72,7 @@ export const Modal = ({ type, isVisible }: any) => {
                       min: 3,
                       max: 100,
                     })}
+                    defaultValue={card.question}
                     placeholder="enter question"
                     className="resize-none w-full my-2 px-4 py-2 border-2 rounded-2xl focus:outline-blue-500 break-words"
                   ></textarea>
@@ -76,6 +82,7 @@ export const Modal = ({ type, isVisible }: any) => {
                       min: 3,
                       max: 250,
                     })}
+                    defaultValue={card.answer}
                     placeholder="enter question"
                     className="
                     resize-none
